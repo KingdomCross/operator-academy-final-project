@@ -1,5 +1,13 @@
 const express = require("express");
 const router = express.Router();
+const MessagingResponse = require('twilio').twiml.MessagingResponse;
+
+// Import Twilio and initialize the client.
+// IMPORTANT: Remember to set environment variables for your Account SID and Auth Token.
+const twilio = require("twilio");
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const client = twilio(accountSid, authToken);
 
 // Axios allows us to make HTTP requests from our app
 const axios = require("axios").default;
@@ -48,12 +56,17 @@ router.post("/sms", (req, res) => {
     `Message received from ${req.body.From}, containing ${req.body.Body}`
   );
 
-  res.type(`text/xml`);
-  res.send(`
-    <Response>
-    <Message>We received your message!</Message>
-    </Response>
-    `);
+  //https://www.twilio.com/blog/2017/10/how-to-receive-and-respond-to-a-text-message-with-node-js-express-and-twilio.html
+  // Start our TwiML response.
+  const twiml = new MessagingResponse();
+
+  // Add a text message.
+  const msg = twiml.message('Check out this sweet owl!');
+  // Add a picture message.
+  msg.media('https://demo.twilio.com/owl.png');
+
+  res.writeHead(200, {'Content-Type': 'text/xml'});
+  res.end(twiml.toString());
 });
 
 module.exports = router;
