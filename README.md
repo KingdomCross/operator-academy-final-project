@@ -1,3 +1,8 @@
+# Change I made
+I made an app that when you text to this project, you'll get a reply back with a picture of an awesome owl!
+However, it require me to turn on the machine and deploy it to the web using ngrok
+
+If owner activated, send text message to his Twilio phone number and should get a reply back.
 # Operator Academy Project Template
 
 Welcome to Week 6, the project week! During this week, we'll put together everything we've learned during Operator Academy to build a final project.
